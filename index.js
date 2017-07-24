@@ -65,21 +65,21 @@ readPkg(process.cwd())
             markedLatest.forEach(name => {
                 console.log(` - ${name}`);
             });
-            return findOutdatedPackages(markedLatest);
+            return findOutdatedPackages(markedLatest)
+                .then(outdatedPackages => {
+                    if (outdatedPackages.length > 0) {
+                        console.log("Will update the following packages:");
+                        outdatedPackages.forEach(package => {
+                            console.log(` - ${package.name}: ${package.currentVersion} => ${package.latestVersion}`);
+                        });
+                        return updatePackages(outdatedPackages).then(() => {
+                            console.log("Done.");
+                        });
+                    }
+                    console.log(" -> No outdated packages found");
+                });
         }
         console.log(" -> No packages found");
-    })
-    .then(outdatedPackages => {
-        if (outdatedPackages.length > 0) {
-            console.log("Will update the following packages:");
-            outdatedPackages.forEach(package => {
-                console.log(` - ${package.name}: ${package.currentVersion} => ${package.latestVersion}`);
-            });
-            return updatePackages(outdatedPackages).then(() => {
-                console.log("Done.");
-            });
-        }
-        console.log(" -> No outdated packages found");
     })
     .catch(err => {
         console.log(pruddy(err));

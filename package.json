@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "description": "Force latest package versions (those marked \"latest\")",
   "main": "index.js",
+  "bin": {
+    "force-latest": "./index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./index.js"
   },
   "repository": {
     "type": "git",
