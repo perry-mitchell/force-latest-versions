@@ -9,10 +9,9 @@ const readPkg = require("read-pkg");
 
 const production = process.env.NODE_ENV === "production";
 
-function findOutdatedPackages(packageDict) {
-    const latestSpecs = Object.keys(packageDict).filter(name => packageDict[name] === "latest");
+function findOutdatedPackages(packageNames) {
     return Promise
-        .all(latestSpecs.map(name =>
+        .all(packageNames.map(name =>
             latestVersion(name)
                 .then(version => ({
                     name,
@@ -60,8 +59,13 @@ readPkg(process.cwd())
         if (!production) {
             Object.assign(packages, pkgData.devDependencies || {});
         }
-        if (Object.keys(packages).length > 0) {
-            return findOutdatedPackages(packages);
+        const markedLatest = Object.keys(packages).filter(name => packages[name] === "latest");
+        if (markedLatest.length > 0) {
+            console.log("Checking the following packages marked 'latest':");
+            markedLatest.forEach(name => {
+                console.log(` - ${name}`);
+            });
+            return findOutdatedPackages(markedLatest);
         }
         console.log(" -> No packages found");
     })
