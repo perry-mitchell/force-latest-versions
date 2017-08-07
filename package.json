@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/perry-mitchell/force-latest-versions#readme",
   "dependencies": {
-    "execa": "~0.7.0",
+    "execa": "~0.8.0",
+    "get-installed-path": "~2.0.3",
     "latest-version": "~3.1.0",
     "pruddy-error": "~1.0.2",
     "read-pkg": "~2.0.0"

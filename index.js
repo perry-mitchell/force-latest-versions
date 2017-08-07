@@ -6,6 +6,7 @@ const execa = require("execa");
 const latestVersion = require("latest-version");
 const pruddy = require("pruddy-error");
 const readPkg = require("read-pkg");
+const getInstalledPath = require("get-installed-path");
 
 const production = process.env.NODE_ENV === "production";
 
@@ -32,8 +33,9 @@ function findOutdatedPackages(packageNames) {
 }
 
 function getPackageVersion(packageName) {
-    const packagePath = fs.realpathSync(path.join(process.cwd(), `./node_modules/${packageName}`));
-    return readPkg(packagePath)
+    return getInstalledPath(packageName, { local: true })
+        .then(pkgPath => fs.realpathSync(pkgPath))
+        .then(readPkg)
         .then(pkgData => {
             const { name, version } = pkgData;
             if (name !== packageName) {
