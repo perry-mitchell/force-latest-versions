@@ -5,6 +5,8 @@
 
 A CLI utility to force the installation of the latest package version of all packages in `package.json` marked as `latest`. Packages with any other version specification will be ignored. `devDependencies` is only parsed if `NODE_ENV` is not "production".
 
+> **Please note** that in most cases using `"latest"` and always installing the latest version is not good practice.
+
 ## Usage
 Run the executable by entering `force-latest`. This can be added to a package's manifest as a `postinstall` script:
 
